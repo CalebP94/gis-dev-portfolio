@@ -1,0 +1,18 @@
+#base image from amazon with python version
+from public.ecr.aws/lambda/python:3.13
+
+# Install micromamba
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+ENV PATH=$MAMBA_ROOT_PREFIX/bin:$PATH
+
+RUN curl -L https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj -C /usr/local/bin --strip-components=1 bin/micromamba
+
+# Copy environment file
+# Create Conda environment
+RUN micromamba create -y -n env_3dep -f /tmp/env_3dep.yml && \
+    micromamba clean --all --yes
+
+# Activate conda environment
+SHELL ["micromamba", "run", "-n", "env_3dep", "--"]
+WORKDIR /var/task
+
