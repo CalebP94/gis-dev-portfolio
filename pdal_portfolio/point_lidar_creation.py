@@ -8,8 +8,8 @@ import pyproj
 import boto3
 import requests
 import geopandas as gpd
+import argparse
 import utils
-
 
 def get_extent_from_ept_s3(bucket: str='usgs-lidar-public', key: str='bounds'):
     s3 = boto3.client("s3")
